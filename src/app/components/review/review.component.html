@@ -1,1 +1,220 @@
-<p>review works!</p>
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <div class="input-group mb-3">
+                    <input type="text"  style="padding:6px" class="form-control" placeholder="Search" aria-label="Recipient's username" aria-describedby="basic-addon2" [(ngModel)]="searchBar">
+                    <!-- <label for="searchOption" style="padding:10px">Filtro:</label> -->
+                    <select id="searchOption"  style="margin-right:10px"[(ngModel)]="selectedOption">
+                      <option value="author">Author</option>
+                      <option value="place">Place</option>
+                      <option value="housing">Housing</option>
+                    </select>
+                    <div class="input-group-append">
+                        <button class="btn btn-primary" style="padding:6px" type="button" (click)="searchForReview()">Search</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <section>
+        <div class="container">
+            <div class="row justify-content-md-center">
+                <div class="col-md-auto">
+                    
+                    @if(searchReviewMode==true && searchedReviews && editMode==false && createMode==false && reviewSelected==false){
+
+                        <h1>Your Reviews:</h1>
+                            <ul style="list-style: none; padding: 0;"> 
+                            @for(review of searchedReviews; track review._id)
+                            {
+                                <li style="padding:5px">
+                                    <button class="btn btn-primary" type="button" (click)="onSelectReview(review)">
+                                        <span class="title">{{review.title}}</span>
+                                        <!-- <span class="author">{{username}}</span> -->
+                                    </button>
+                                </li>
+                            }
+                            </ul>
+                            <div style="padding:10px" > 
+                                <button class="btn btn-primary" type="button" (click)="createReviewBtn()">Create new user</button>
+                            </div>
+                        <!-- <div>
+                            <h1>Review Details</h1>
+                            <p>ID: {{searchedReview._id}}</p>
+                            <p>Title: {{selectedReview.title}}</p>
+                            <p>Content: {{selectedReview.content}}</p>
+                            <p>Stars: {{selectedReview.stars}}</p>
+                            <p>Author: {{selectedReview.author}}</p>
+                            
+                            
+                            <button class="btn btn-primary" type="button" (click)="backToUserList()">Back</button>
+                            <span style="margin-right: 10px;"></span>
+                            <button class="btn btn-primary" type="button" (click)="editUserMode()">Edit User</button>
+                            <span style="margin-right: 10px;"></span>
+                            <button class="btn btn-primary" type="button" (click)="deactivateUser()">Deactivate User</button>
+                        </div> -->
+                    }@else if (searchReviewMode==true && searchedReviews==null){
+                        <h1>User not found</h1>
+                        <button class="btn btn-primary" type="button" (click)="backToReviewList()">Back</button>
+                    }
+                    
+                </div>
+                <div class="col-md-auto">
+                    <!-- Create a user -->
+                    @if(createMode==true){
+                        <div>
+                            <h1>Enter new review details:</h1>
+                            <form [formGroup]="reviewForm">
+                                <div>
+                                <label for="title" style="padding:10px">Title:</label>
+                                <input id="title" type="text" formControlName="title" required>
+                                </div>
+
+                                <div>
+                                <label for="content" style="padding:10px">Content:</label>
+                                <input id="content" type="text" formControlName="content" required>
+                                </div>
+
+                                <div>
+                                <label for="stars" style="padding:10px">Stars:</label>
+                                <input id="stars" type="text" formControlName="stars" required>
+                                </div>
+                                
+                                <div>
+                                    <label for="place_id" style="padding:10px">Place:</label>
+                                    <input id="place_id" type="text" formControlName="place_id" required>
+                                </div>
+
+                                <div>
+                                    <label for="housing_id" style="padding:10px">Housing:</label>
+                                    <input id="housing_id" type="text" formControlName="housing_id" >
+                                </div>
+
+                                <div>
+                                    <label for="review_deactivated" style="padding:10px">Deactivated:</label>
+                                    <input id="review_deactivated" type="text" formControlName="review_deactivated" >
+                                </div>
+                                                       
+                              
+                                <div style="padding:10px">
+                                    <button class="btn btn-primary" [disabled]="!reviewForm.valid" type="submit" (click)="onSubmit()">Submit</button>
+                                </div>
+                                
+                            </form>
+                            <button class="btn btn-primary" type="button" (click)="backToReviewList()">Back</button>
+                            
+                        </div>
+                    }@else if(editMode==true && reviewSelected==true && selectedReview){
+                        <div>
+                            <h1>Edit user details:</h1>
+                            <form [formGroup]="reviewForm">
+                                <div>
+                                <label for="title" style="padding:10px">Title:</label>
+                                <input id="title" type="text" placeholder={{selectedReview.title}} formControlName="title" >
+                                </div>
+
+                                <div>
+                                <label for="content" style="padding:10px">Content:</label>
+                                <input id="content" type="text" placeholder={{selectedReview.content}} formControlName="content" >
+                                </div>
+
+                                <div>
+                                <label for="stars" style="padding:10px">Stars:</label>
+                                <input id="stars" type="text" placeholder={{selectedReview.stars}} formControlName="stars" >
+                                </div>
+                                
+                                <div>
+                                    <label for="place_id" style="padding:10px">Place:</label>
+                                    <input id="place_id" type="text" placeholder={{selectedReview.place_id}} formControlName="place_id" >
+                                </div>
+
+                                <div>
+                                    <label for="housing_id" style="padding:10px">Housing:</label>
+                                    <input id="housing_id" type="text" placeholder={{selectedReview.housing_id}} formControlName="housing_id" >
+                                </div>
+
+                                <div>
+                                    <label for="review_deactivated" style="padding:10px">Deactivated:</label>
+                                    <input id="review_deactivated" type="text" placeholder={{selectedReview.review_deactivated}} formControlName="review_deactivated" >
+                                </div>
+                                                       
+                              
+                                <div style="padding:10px">
+                                    <button class="btn btn-primary"  type="submit" (click)="editReviewSubmit()">Submit</button>
+                                </div>
+                                
+                            </form>
+                            <button class="btn btn-primary" type="button" (click)="backToReviewList()">Back</button>
+                            
+                        </div>
+                    }
+                
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="container">
+            <div class="row justify-content-md-center">
+                <div class="col-md-auto">
+                    
+                    <div>
+                        @if(reviewSelected==false && createMode==false && searchReviewMode==false && editMode==false && loggedIn==true){
+                            <h1>Your Reviews:</h1>
+                            <ul style="list-style: none; padding: 0;"> 
+                            @for(review of reviews; track review._id)
+                            {
+                                <li style="padding:5px">
+                                    <button class="btn btn-primary" type="button" (click)="onSelectReview(review)">
+                                        <span class="title">{{review.title}}</span>
+                                        <!-- <span class="author">{{username}}</span> -->
+                                    </button>
+                                </li>
+                            }
+                            </ul>
+                            <div style="padding:10px" > 
+                                <button class="btn btn-primary" type="button" (click)="createReviewBtn()">Create new review</button>
+                            </div>
+                        }
+                        @else if(reviewSelected==false && createMode==false && searchReviewMode==false && editMode==false && loggedIn==false){
+                            <h2>Tienes que iniciar sesión para ver tus reviews.</h2>
+                        }
+                    </div>
+                </div>
+                
+             </div>
+            
+        </div>
+        <div class="col-md-auto">
+            
+            @if(selectedReview && searchReviewMode==false && createMode==false  && editMode==false){
+                <div>
+                    <h1>Review Details</h1>
+                    <p>ID: {{selectedReview._id}}</p>
+                    <p>Title: {{selectedReview.title}}</p>
+                    <p>Content: {{selectedReview.content}}</p>
+                    <p>Stars: {{selectedReview.stars}}</p>
+                    <p>Author: {{selectedReview.author}}</p>
+                    @if(selectedReview.place_id){
+                        <p>Place: {{selectedReview.place_id}}</p>
+                    }@if(selectedReview.housing_id){
+                        <p>Housing: {{selectedReview.housing_id}}</p>
+                    }
+                    <p>Deactivated: {{selectedReview.review_deactivated}}</p>
+                    <p>Creation date: {{selectedReview.creation_date}}</p>
+                    
+                    <button class="btn btn-primary" type="button" (click)="backToReviewList()">Back</button>
+                    <span style="margin-right: 10px;"></span>
+                    <button class="btn btn-primary" type="button" (click)="editReviewSubmit()">Edit Review</button>
+                    <span style="margin-right: 10px;"></span>
+                    <button class="btn btn-primary" type="button" (click)="deactivateReview()">Deactivate Review</button>
+                </div>
+            }
+        </div>
+                
+    </section>
+
+    
+</section>

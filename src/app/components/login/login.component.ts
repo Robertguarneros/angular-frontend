@@ -39,7 +39,9 @@ login(){
 
     this.userService.loginUser(this.loginForm.value.email, this.loginForm.value.password).subscribe((data) => {
       console.log(data);
-      this.authService.setToken(data);
+      this.authService.setToken(data.token);
+      this.authService.setUserId(data._id);
+      this.authService.setUserName(data.first_name);
       this.loggedIn = true;
     });
   }
