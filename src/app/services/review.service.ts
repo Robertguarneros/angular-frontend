@@ -53,14 +53,11 @@ export class ReviewService {
   createReview(newReview : Review |undefined) {
     return this.http.post<Review>(this.url+'/review',newReview, {headers: this.getHeaders() });
   }
-  updateUser(editReview : Review) {
-    return this.http.put<Review>(this.url+'/users/'+ editReview._id, editReview, { headers: this.getHeaders() });
+  updateReview(editReview : Review) {
+    return this.http.put<Review>(this.url+'/review/'+ editReview._id, editReview, { headers: this.getHeaders() });
   }
-  deleteReview(deleteReviewId : Review|null) {
-    if(deleteReviewId!=null){
-      return this.http.delete(this.url+'/review/'+ deleteReviewId._id, { headers: this.getHeaders() });
-    }
-    else return Error;
+  deleteReview(deleteReviewId : string|null) {
+    return this.http.delete(this.url+'/review/'+ deleteReviewId, { headers: this.getHeaders() });
     
     
   }

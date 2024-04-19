@@ -29,7 +29,7 @@ createMode:boolean=false;
 searchReviewMode:boolean=false;
 editMode:boolean=false;
 searchedReviews: Review[] =[];
-deactivateReviewId:string='';
+deactivateReviewId:string = '';
 username: string | null=null;
 reviewToBeEdited: Review | null = null;
 
@@ -102,7 +102,10 @@ reviewForm = new FormGroup({
   }
   createReviewBtn(): void{
     this.createMode = true;
-    }
+  }
+  editReviewBtn(): void{
+      this.editMode = true;
+  }
   searchForReview(): void {
     this.searchReviewMode = true;
     this.reviewSelected= false;
@@ -197,9 +200,9 @@ reviewForm = new FormGroup({
     };
     console.log(edit)
 
-    this.reviewService.updateUser(edit).subscribe({
+    this.reviewService.updateReview(edit).subscribe({
       next: (editedReview: Review) => {
-        console.log('User created:', editedReview);
+        console.log('Review edited:', editedReview);
         // Optionally, reset the form after successful submission
         this.refreshReviewList();
         this.reviewForm.reset();
@@ -215,22 +218,13 @@ reviewForm = new FormGroup({
   }
   deactivateReview(): void {
     
-    
-    /* this.reviewService.deleteReview(this.selectedReview).subscribe( {
-      next: (editedReview: Review) => {
-        console.log('User created:', editedReview);
-        // Optionally, reset the form after successful submission
-        
-
+    if(this.selectedReview){
+      this.deactivateReviewId = this.selectedReview._id || '';
+      this.reviewService.deleteReview(this.deactivateReviewId).subscribe(()=> {
         this.refreshReviewList();
-      this.backToReviewList();
-        // You may also want to navigate the user back to the user list view or perform any other action
-      },
-      error: (error: any) => {
-        console.error('Error creating user:', error);
-        // Handle error cases
-      }
-      
-    }); */
+        this.backToReviewList();
+      });
+    }
+    
   }
 }
