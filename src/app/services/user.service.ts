@@ -15,7 +15,6 @@ export class UserService {
   url: string = "http://127.0.0.1:3000";
   
   getToken() {
-    console.log('dentro get token de user'+this.authService.getToken());
     this.token = this.authService.getToken();
   }
 
