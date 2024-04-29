@@ -2,8 +2,6 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Place } from '../../models/place';
 import { PlaceService } from '../../services/place.service';
-import { scheduled } from 'rxjs';
-import mongoose from 'mongoose';
 
 @Component({
   selector: 'app-place',
@@ -55,9 +53,7 @@ export class PlaceComponent {
     deactivated: new FormControl('')
   });
 
-  constructor( public placeService: PlaceService, private formBuilder: FormBuilder)
-  {
-    
+  constructor( public placeService: PlaceService, private formBuilder: FormBuilder){
   }
 
   ngOnInit(): void {
@@ -88,9 +84,7 @@ export class PlaceComponent {
     }
     
     onSubmit(): void {
-      console.log("onSubmit()")
       if (this.placeForm.valid) {
-        console.log("válido")
         // Extract form values
         const formValues = this.placeForm.value;
             

@@ -82,7 +82,7 @@
                     @if(createMode==true){
                         <div>
                             <h1>{{ createMode ? 'Create' : 'Edit' }} Place</h1>
-                            <form [formGroup]="placeForm" (submit)="onSubmit()">
+                            <form [formGroup]="placeForm">
                                 <div>
                                     <label for="title">Title:</label>
                                     <input id="title" type="text" formControlName="title" class="form-control" required>
@@ -175,7 +175,7 @@
                     @else if (editMode==true){
                         <div>
                             <h1>{{ editMode ? 'Create' : 'Edit' }} Place</h1>
-                            <form [formGroup]="placeForm" (submit)="editPlaceSubmit()">
+                            <form [formGroup]="placeForm">
                                 <div>
                                     <label for="title">Title:</label>
                                     <input id="title" type="text" formControlName="title" class="form-control" required>
@@ -258,7 +258,7 @@
                                     <input id="address" type="text" formControlName="address" class="form-control" required>
                                 </div>
                                 <div>
-                                    <button type="submit" class="btn btn-primary" (click)="editPlaceSubmit()">{{ editMode ? 'Edit' : 'Save' }}</button>
+                                    <button type="submit" class="btn btn-primary" (click)="editPlaceSubmit()">{{ editMode ? 'Save' : 'Save' }}</button>
                                     <span style="margin-right: 10px;"></span>
                                     <button class="btn btn-primary" type="button" (click)="backToPlaceList()">Cancel</button>
                                 </div>
