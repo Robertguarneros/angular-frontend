@@ -20,7 +20,7 @@ export class ReviewComponent {
   user: User | null = null;
   selectedOption: string = 'author';
   searchBar: string='';
-  reviews: Review[] = [];//users retrieved from the server
+  reviews: Review[] = [];
   reviewsFilter: Review[] = [];
  review: Review | null = null;
 selectedReview: Review | null = null;
@@ -46,34 +46,11 @@ reviewForm = new FormGroup({
 });
 
 
-
-
-
-
-
-
-
-
-
   constructor( public reviewService: ReviewService,public userService: UserService,public authService: AuthService,private formBuilder: FormBuilder)
   {
     
   }
   
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
 
   ngOnInit(): void {
   this.loggedIn = this.reviewService.isLoggedIn();
@@ -133,14 +110,13 @@ reviewForm = new FormGroup({
   }
 
   onSubmit(): void {
-    if (this.reviewForm.valid) {
-      // Extract form values
+    
       const formValues = this.reviewForm.value;
       
-      // Check if birth_date is a valid date string
+      
       
   
-      // Create a new user object from form values
+      
       const newReview: Review = {
         
         content: formValues.content || '',
@@ -150,17 +126,17 @@ reviewForm = new FormGroup({
         housing_id: formValues.housing_id||'',
         review_deactivated: formValues.review_deactivated||false,
         
-        // Include other properties similarly
+        
       };
   
       this.reviewService.createReview(newReview).subscribe({
         next: (createdReview: Review) => {
           console.log('Review created:', createdReview);
-          // Optionally, reset the form after successful submission
+        
           this.refreshReviewList();
           this.reviewForm.reset();
           this.createMode = false;
-          // You may also want to navigate the user back to the user list view or perform any other action
+          
         },
         error: (error: any) => {
           console.error('Error creating user:', error);
@@ -168,23 +144,20 @@ reviewForm = new FormGroup({
         }
       });
       
-    }
+    //}
   }
   refreshReviewList(): void {
-    // Fetch the updated user list from the server
+    
     this.reviewService.getReviews().subscribe(reviews => {
       this.reviews = reviews;
       console.log('User list updated:', this.reviews);
     });
   }
   editReviewSubmit(): void {
-    // Extract form values
+    
     const formValues = this.reviewForm.value;
     this.editMode=true;
-    // Check if birth_date is a valid date string
     
-
-    // Create a new user object from form values
     const edit:   Review = {
       _id: this.selectedReview?._id,
       title: formValues.title || this.selectedReview?.title || '',
@@ -196,23 +169,21 @@ reviewForm = new FormGroup({
       review_deactivated: formValues.review_deactivated || this.selectedReview?.review_deactivated || false,
       
       
-      // Include other properties similarly
+  
     };
     console.log(edit)
 
     this.reviewService.updateReview(edit).subscribe({
       next: (editedReview: Review) => {
         console.log('Review edited:', editedReview);
-        // Optionally, reset the form after successful submission
         this.refreshReviewList();
         this.reviewForm.reset();
         this.editMode = false;
         this.backToReviewList();
-        // You may also want to navigate the user back to the user list view or perform any other action
+        
       },
       error: (error: any) => {
         console.error('Error creating user:', error);
-        // Handle error cases
       }
     });
   }

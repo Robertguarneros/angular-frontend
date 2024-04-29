@@ -98,9 +98,9 @@
                                                        
                               
                                 <div style="padding:10px">
-                                    <button class="btn btn-primary" [disabled]="!reviewForm.valid" type="submit" (click)="onSubmit()">Submit</button>
+                                    <button class="btn btn-primary" type="submit" (click)="onSubmit()">Submit</button>
                                 </div>
-                                
+                                <!-- [disabled]="!reviewForm.valid" -->
                             </form>
                             <button class="btn btn-primary" type="button" (click)="backToReviewList()">Back</button>
                             

@@ -13,7 +13,7 @@ export class ReviewService {
   id: string | null = null;
   constructor(private http:HttpClient, private authService:AuthService) { }
   url: string = "http://127.0.0.1:3000";
-  //url: string = "http://147.83.7.158:3000";
+  
 
   getToken() {
     this.token = this.authService.getToken();
