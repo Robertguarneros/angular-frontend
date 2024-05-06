@@ -1,1 +1,344 @@
 <p>Housing</p>
+
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" placeholder="Search" aria-label="Recipient's title" aria-describedby="basic-addon2" [(ngModel)]="searchBarHousingString">
+                    <div class="input-group-append">
+                        <button class="btn btn-primary" type="button" (click)="searchForHousing()">Search</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <section>
+        <div class="container">
+            <div class="row justify-content-md-center">
+                <div class="col-md-auto">
+                    <!-- Display selected house details -->
+                    @if(searchHousingMode==true && searchedHousing && editMode==false && createMode==false){
+                        <div>
+                            <h1>Housing Details</h1>
+                            <p>ID: {{searchedHousing._id}}</p>
+                            <p>Title: {{searchedHousing.title}}</p>
+                            <p>Description: {{searchedHousing.description}}</p>
+                            <p>Owner: {{searchedHousing.owner}}</p>
+                            <p>Housing Rating: {{searchedHousing.rating}}</p>
+                            <p>Photo: {{searchedHousing.photo}}</p>
+                            <p>Coords: {{searchedHousing.coords.latitude}} {{searchedHousing.coords.longitude}}</p>
+                            <p>Address: {{searchedHousing.address}}</p>
+                            <p>Availability: {{searchedHousing.availability}}</p>
+                            <p>Coffee: {{searchedHousing.coffee}}</p>
+                            <p>Schedule:</p>
+                            <ul>
+                                <li>Monday: {{searchedHousing.schedule.monday}}</li>
+                                <li>Tuesday: {{searchedHousing.schedule.tuesday}}</li>
+                                <li>Wednesday: {{searchedHousing.schedule.wednesday}}</li>
+                                <li>Thursday: {{searchedHousing.schedule.thursday}}</li>
+                                <li>Friday: {{searchedHousing.schedule.friday}}</li>
+                                <li>Saturday: {{searchedHousing.schedule.saturday}}</li>
+                                <li>Sunday: {{searchedHousing.schedule.sunday}}</li>
+                            </ul>
+                            <p>Verified: {{searchedHousing.verified}}</p>
+                            <p>Deactivated: {{searchedHousing.house_deactivated}}</p>
+                            <p>Creation Date: {{searchedHousing.creation_date}}</p>
+                            <p>Last Modified: {{searchedHousing.modified_date}}</p>
+                            <button class="btn btn-primary" type="button" (click)="backToHousingList()">Back</button>
+                            <span style="margin-right: 10px;"></span>
+                            <button class="btn btn-primary" type="button" (click)="editHousingMode()">Edit Housing</button>
+                            <span style="margin-right: 10px;"></span>
+
+                        </div>
+                    }@else if (searchHousingMode==true && searchedHousing==null){
+                        <h1>Housing not found</h1>
+                        <button class="btn btn-primary" type="button" (click)="backToHousingList()">Back</button>
+                    }
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="container">
+            <div class="row justify-content-md-center">
+                <div class="col-md-auto">
+                    <!-- Display list of houses -->
+                    <div>
+                        @if(housingSelected==false && createMode==false && searchHousingMode==false && editMode==false){
+                            <h1>Housing found:</h1>
+                            <ul style="list-style: none; padding: 0;"> 
+                            @for(house of housings; track house._id)
+                            {
+                                <li style="padding:5px">
+                                    <button class="btn btn-primary" type="button" (click)="onSelectHousing(house)">
+                                        <span class="name">{{house.title}}</span>
+                                    </button>
+                                </li>
+                            }
+                            </ul>
+                            <button class="btn btn-secondary btn-sm" type="button" (click)="previousPage()">Previous Page</button>
+                            <span style="margin-right: 10px;"></span>
+                            <button class="btn btn-secondary btn-sm" type="button" (click)="nextPage()">Next Page</button>
+                            <div style="padding:10px" > 
+                                <button class="btn btn-primary" type="button" (click)="createHousingBtn()">Create new house</button>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <div class="col-md-auto">
+                    <!-- Display selected house details -->
+                    @if(selectedHousing && searchHousingMode==false && createMode==false  && editMode==false){
+                        <div>
+                            <h1>Housing Details</h1>
+                            <p>ID: {{searchedHousing?._id}}</p>
+                            <p>Title: {{searchedHousing?.title}}</p>
+                            <p>Description: {{searchedHousing?.description}}</p>
+                            <p>Owner: {{searchedHousing?.owner}}</p>
+                            <p>Housing Rating: {{searchedHousing?.rating}}</p>
+                            <p>Photo: {{searchedHousing?.photo}}</p>
+                            <p>Coords: {{searchedHousing?.coords?.latitude}} {{searchedHousing?.coords?.longitude}}</p>
+                            <p>Address: {{searchedHousing?.address}}</p>
+                            <p>Availability: {{searchedHousing?.availability}}</p>
+                            <p>Coffee: {{searchedHousing?.coffee}}</p>
+                            <p>Schedule:</p>
+                            <ul>
+                                <li>Monday: {{searchedHousing?.schedule?.monday}}</li>
+                                <li>Tuesday: {{searchedHousing?.schedule?.tuesday}}</li>
+                                <li>Wednesday: {{searchedHousing?.schedule?.wednesday}}</li>
+                                <li>Thursday: {{searchedHousing?.schedule?.thursday}}</li>
+                                <li>Friday: {{searchedHousing?.schedule?.friday}}</li>
+                                <li>Saturday: {{searchedHousing?.schedule?.saturday}}</li>
+                                <li>Sunday: {{searchedHousing?.schedule?.sunday}}</li>
+                            </ul>
+                            <p>Verified: {{searchedHousing?.verified}}</p>
+                            <p>Deactivated: {{searchedHousing?.house_deactivated}}</p>
+                            <p>Creation Date: {{searchedHousing?.creation_date}}</p>
+                            <p>Last Modified: {{searchedHousing?.modified_date}}</p>
+                            <button class="btn btn-primary" type="button" (click)="backToHousingList()">Back</button>
+                            <span style="margin-right: 10px;"></span>
+                            <button class="btn btn-primary" type="button" (click)="editHousingMode()">Edit Housing</button>
+                            <span style="margin-right: 10px;"></span>
+                            <button class="btn btn-primary" type="button" (click)="deactivateHousing()">Deactivate Housing</button>
+                        </div>
+                    }
+                </div>
+                <div class="col-md-auto">
+                    <!-- Create a houses -->
+                    @if(createMode==true){
+                        <div>
+                            <h1>Enter new houses details:</h1>
+                            <form [formGroup]="housingForm">
+                                <div>
+                                <label for="title" style="padding:10px">Title:</label>
+                                <input id="title" type="text" formControlName="title" required>
+                                </div>
+
+                                <div>
+                                <label for="description" style="padding:10px">Description:</label>
+                                <input id="description" type="text" formControlName="description" required>
+                                </div>
+
+                                <div>
+                                <label for="owner" style="padding:10px">Owner:</label>
+                                <input id="owner" type="text" formControlName="owner" required>
+                                </div>
+    
+                                <div>
+                                    <label for="rating" style="padding:10px">Rating:</label>
+                                    <input id="rating" type="number" formControlName="rating" class="form-control" min="0" max="5" step="0.1" >
+                                    </div>
+
+                                <div formGroupName="coords">
+                                    <label>Coordinates:</label>
+                                    <div>
+                                        <label for="latitude">Latitude:</label>
+                                        <input id="latitude" type="number" formControlName="latitude" class="form-control" required>
+                                    </div>
+                                    <div>
+                                        <label for="longitude">Longitude:</label>
+                                        <input id="longitude" type="number" formControlName="longitude" class="form-control" required>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label for="photo">Photo:</label>
+                                    <input id="photo" type="text" formControlName="photo" class="form-control" required>
+                                </div>
+
+                                <div>
+                                <label for="address" style="padding:10px">Address:</label>
+                                <input id="address" type="text" formControlName="address">
+                                </div>
+
+                                <div>
+                                <label for="availability" style="padding:10px">Availability:</label>
+                                <input id="availability" type="checkbox" formControlName="availability">
+                                </div>
+
+                                <div>
+                                <label for="coffee" style="padding:10px">Coffee:</label>
+                                <input id="coffee" type="checkbox" formControlName="coffee">
+                                </div>
+
+                                <div formGroupName="schedule">
+                                    <h3>Schedule:</h3>
+                                    <div>
+                                        <label for="monday">Monday:</label>
+                                        <input id="monday" type="text" formControlName="monday" >
+                                    </div>
+                                    <div>
+                                        <label for="tuesday">Tuesday:</label>
+                                        <input id="tuesday" type="text" formControlName="tuesday" >
+                                    </div>
+                                    <div>
+                                        <label for="wednesday">Wednesday:</label>
+                                        <input id="wednesday" type="text" formControlName="wednesday" >
+                                    </div>
+                                    <div>
+                                        <label for="thursday">Thursday:</label>
+                                        <input id="thursday" type="text" formControlName="thursday" >
+                                    </div>
+                                    <div>
+                                        <label for="friday">Friday:</label>
+                                        <input id="friday" type="text" formControlName="friday" >
+                                    </div>
+                                    <div>
+                                        <label for="saturday">Saturday:</label>
+                                        <input id="saturday" type="text" formControlName="saturday" >
+                                    </div>
+                                    <div>
+                                        <label for="sunday">Sunday:</label>
+                                        <input id="sunday" type="chectextkbox" formControlName="sunday" >
+                                    </div>
+                                </div>
+                                <div>
+                                <label for="verified" style="padding:10px">Verified:</label>
+                                <input id="verified" type="checkbox" formControlName="verified" required>
+                                </div>
+
+                                <div>
+                                <label for="house_deactivated" style="padding:10px">House Deactivated:</label>
+                                <input id="house_deactivated" type="checkbox" formControlName="house_deactivated">
+                                </div>                                
+
+                                <div style="padding:10px">
+                                    <button class="btn btn-primary" [disabled]="!housingForm.valid" type="submit" (click)="onSubmit()">Submit</button>
+                                </div>
+                                
+                            </form>
+                            <button class="btn btn-primary" type="button" (click)="backToHousingList()">Back</button>
+                            
+                        </div>
+                    }@else if(editMode==true){
+                        <div>
+                            <h1>Edit house details:</h1>
+                            <form [formGroup]="housingForm">
+                                <div>
+                                    <label for="title" style="padding:10px">Title:</label>
+                                    <input id="title" type="text" formControlName="title" required>
+                                    </div>
+    
+                                    <div>
+                                    <label for="description" style="padding:10px">Description:</label>
+                                    <input id="description" type="text" formControlName="description" required>
+                                    </div>
+    
+                                    <div>
+                                    <label for="owner" style="padding:10px">Owner:</label>
+                                    <input id="owner" type="text" formControlName="owner" required>
+                                    </div>
+        
+                                    <div>
+                                        <label for="rating" style="padding:10px">Rating:</label>
+                                        <input id="rating" type="number" formControlName="rating" class="form-control" min="0" max="5" step="0.1" >
+                                        </div>
+    
+                                    <div formGroupName="coords">
+                                        <label>Coordinates:</label>
+                                        <div>
+                                            <label for="latitude">Latitude:</label>
+                                            <input id="latitude" type="number" formControlName="latitude" class="form-control" required>
+                                        </div>
+                                        <div>
+                                            <label for="longitude">Longitude:</label>
+                                            <input id="longitude" type="number" formControlName="longitude" class="form-control" required>
+                                        </div>
+                                    </div>
+    
+                                    <div>
+                                        <label for="photo">Photo:</label>
+                                        <input id="photo" type="text" formControlName="photo" class="form-control" required>
+                                    </div>
+    
+                                    <div>
+                                    <label for="address" style="padding:10px">Address:</label>
+                                    <input id="address" type="text" formControlName="address">
+                                    </div>
+    
+                                    <div>
+                                    <label for="availability" style="padding:10px">Availability:</label>
+                                    <input id="availability" type="checkbox" formControlName="availability">
+                                    </div>
+    
+                                    <div>
+                                    <label for="coffee" style="padding:10px">Coffee:</label>
+                                    <input id="coffee" type="checkbox" formControlName="coffee">
+                                    </div>
+    
+                                    <div formGroupName="schedule">
+                                        <h3>Schedule:</h3>
+                                        <div>
+                                            <label for="monday">Monday:</label>
+                                            <input id="monday" type="text" formControlName="monday" >
+                                        </div>
+                                        <div>
+                                            <label for="tuesday">Tuesday:</label>
+                                            <input id="tuesday" type="text" formControlName="tuesday" >
+                                        </div>
+                                        <div>
+                                            <label for="wednesday">Wednesday:</label>
+                                            <input id="wednesday" type="text" formControlName="wednesday" >
+                                        </div>
+                                        <div>
+                                            <label for="thursday">Thursday:</label>
+                                            <input id="thursday" type="text" formControlName="thursday" >
+                                        </div>
+                                        <div>
+                                            <label for="friday">Friday:</label>
+                                            <input id="friday" type="text" formControlName="friday" >
+                                        </div>
+                                        <div>
+                                            <label for="saturday">Saturday:</label>
+                                            <input id="saturday" type="text" formControlName="saturday" >
+                                        </div>
+                                        <div>
+                                            <label for="sunday">Sunday:</label>
+                                            <input id="sunday" type="chectextkbox" formControlName="sunday" >
+                                        </div>
+                                    </div>
+                                    <div>
+                                    <label for="verified" style="padding:10px">Verified:</label>
+                                    <input id="verified" type="checkbox" formControlName="verified" required>
+                                    </div>
+    
+                                    <div>
+                                    <label for="house_deactivated" style="padding:10px">House Deactivated:</label>
+                                    <input id="house_deactivated" type="checkbox" formControlName="house_deactivated">
+                                    </div>   
+
+                                <div style="padding:10px">
+                                    <button class="btn btn-primary" type="submit" (click)="editHousingSubmit()">Submit</button>
+                                </div>
+                                
+                            </form>
+                            <button class="btn btn-primary" type="button" (click)="backToHousingList()">Back</button>
+                            
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </section>
+</section>

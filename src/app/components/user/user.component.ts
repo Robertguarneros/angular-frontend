@@ -173,6 +173,8 @@ nextPage(): void {
     });
   }
 
+
+
   editUserMode(): void {
     this.editMode = true;
     if(this.selectedUser){
@@ -198,6 +200,8 @@ nextPage(): void {
           full_name: (this.userToBeEdited?.emergency_contact?.full_name || ''), // Ensure full_name is a string or empty string
           telephone: (this.userToBeEdited?.emergency_contact?.telephone || '') // Ensure telephone is a string or empty string
         }
+        
+
     });
   }
   editUserSubmit(): void {
