@@ -52,9 +52,7 @@ import mongoose from 'mongoose';
         sunday: new FormControl('')
       }),
     verified: new FormControl(false),
-    house_deactivated: new FormControl(false),
-    creation_date: new FormControl(''),
-    modified_date: new FormControl('')
+    house_deactivated: new FormControl(false)
   });
   
   constructor( public housingService: HousingService, private formBuilder: FormBuilder)
@@ -118,10 +116,7 @@ import mongoose from 'mongoose';
             saturday: (formValues.schedule?.saturday || ''),
             sunday: (formValues.schedule?.sunday || '')
           },
-        verified: formValues.verified || false,
-        house_deactivated: formValues.house_deactivated || false,
-        creation_date: new Date,
-        modified_date: new Date
+        verified: formValues.verified || false
       };
   
       this.housingService.createHouse(newHousing).subscribe({
@@ -249,9 +244,7 @@ import mongoose from 'mongoose';
               sunday: (formValues.schedule?.sunday || this.housingToBeEdited?.schedule?.sunday || '')
             },
           verified: !!formValues.verified || this.housingToBeEdited?.verified || false,
-          house_deactivated: !!formValues.house_deactivated || this.housingToBeEdited?.house_deactivated || false,
-          creation_date: new Date,
-            modified_date: new Date
+          house_deactivated: !!formValues.house_deactivated || this.housingToBeEdited?.house_deactivated || false
           // Include other properties similarly
         };
         console.log(edit)

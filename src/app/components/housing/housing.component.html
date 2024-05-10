@@ -1,5 +1,3 @@
-<p>Housing</p>
-
 <section>
     <div class="container">
         <div class="row">
@@ -216,12 +214,7 @@
                                 <div>
                                 <label for="verified" style="padding:10px">Verified:</label>
                                 <input id="verified" type="checkbox" formControlName="verified" required>
-                                </div>
-
-                                <div>
-                                <label for="house_deactivated" style="padding:10px">House Deactivated:</label>
-                                <input id="house_deactivated" type="checkbox" formControlName="house_deactivated">
-                                </div>                                
+                                </div>                          
 
                                 <div style="padding:10px">
                                     <button class="btn btn-primary" [disabled]="!housingForm.valid" type="submit" (click)="onSubmit()">Submit</button>

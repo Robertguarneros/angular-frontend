@@ -26,7 +26,7 @@ export class HousingService {
   }
 
   createHouse(newHouse : IHousing|undefined) {
-    return this.http.post<IHousing>(this.url+'/housing',newHouse);
+    return this.http.post<IHousing>(this.url+'/housing',newHouse, { headers: this.getHeaders() });
   }
 
   getHouse(findHouse : string){
